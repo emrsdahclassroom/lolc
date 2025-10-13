@@ -1051,7 +1051,7 @@
     element.addEventListener('focusout', keepFocus);    
   </script>
 
-<!-- Sticky Top Center Ad (738x95) with Smooth Slide-Out -->
+<!-- Sticky Top Center Ad (728x90) with Smooth Slide-Out and Reappearance -->
 <style>
   /* Container: Top center, fixed, with overflow hidden */
   #ad-container {
@@ -1059,16 +1059,16 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: min(738px, calc(100% - 20px)); /* 738px, 10px margin on mobile */
-    height: 95px;
+    width: min(728px, calc(100% - 20px)); /* 728px, 10px margin on mobile */
+    height: 90px;
     background: rgba(0, 0, 0, 0.90);
     display: none;
     z-index: 99999;
-    border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+    border-radius: 0; /* Sharp corners */
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
     box-sizing: border-box;
-    transition: transform 0.5s ease-in-out; /* Smooth slide-out animation */
+    transition: transform 0.5s ease-in-out; /* Smooth slide-in/out animation */
   }
 
   /* Slide-out animation */
@@ -1081,8 +1081,8 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 1200px; /* Wide for center-crop effect */
-    height: 100%;
+    width: 728px; /* Updated width */
+    height: 90px; /* Updated height */
     border: 0;
     display: block;
     overflow: hidden;
@@ -1141,10 +1141,10 @@
       width: calc(100% - 12px);
       left: 50%;
       transform: translateX(-50%);
-      border-radius: 0 0 6px 6px;
+      border-radius: 0; /* Sharp corners on mobile */
     }
     #ad-iframe {
-      width: 1000px;
+      width: 728px;
     }
   }
 </style>
@@ -1153,31 +1153,36 @@
   <iframe
     id="ad-iframe"
     src="https://script.google.com/macros/s/AKfycbzA6GNdpfUShkCh6apD0D21YAUf7A5d3Guhq2PayqLbk_5XG_wQhy0bdYzKJWLhzgMVMQ/exec"
-    width="1200"
-    height="95"
+    width="728"
+    height="90"
     scrolling="no"
     frameborder="0"
     sandbox="allow-scripts allow-popups allow-same-origin"
   ></iframe>
-  <button id="close-ad" disabled>Close (10)</button>
+  <button id="close-ad" disabled>Close (12)</button>
   <div id="ad-right-mask"></div>
 </div>
 
 <script>
   (function () {
-    const showDelay = 2000; // 2 seconds delay before showing
-    const countdownStart = 10; // 10 seconds countdown
+    const showDelay = 2000; // 2 seconds delay before first show
+    const countdownStart = 12; // 12 seconds countdown
+    const reappearDelay = 25000; // 25 seconds before reappearance
     const adContainer = document.getElementById('ad-container');
     const closeBtn = document.getElementById('close-ad');
 
-    setTimeout(() => {
-      // Show ad
+    function showAd() {
+      // Show ad with smooth slide-in
       adContainer.style.display = 'block';
+      adContainer.classList.remove('hidden');
       adContainer.setAttribute('aria-hidden', 'false');
 
       // Start countdown
       let timeLeft = countdownStart;
       closeBtn.textContent = `Close (${timeLeft})`;
+      closeBtn.disabled = true;
+      closeBtn.classList.remove('enabled');
+
       const t = setInterval(() => {
         timeLeft--;
         if (timeLeft > 0) {
@@ -1189,14 +1194,19 @@
           closeBtn.textContent = 'Close ↑';
         }
       }, 1000);
+    }
 
-      // Close with animation
-      closeBtn.addEventListener('click', () => {
-        if (closeBtn.disabled) return;
-        adContainer.classList.add('hidden');
-        setTimeout(() => adContainer.remove(), 500); // Remove after animation
-      });
-    }, showDelay);
+    // Initial ad show
+    setTimeout(showAd, showDelay);
+
+    // Close with animation and schedule reappearance
+    closeBtn.addEventListener('click', () => {
+      if (closeBtn.disabled) return;
+      adContainer.classList.add('hidden');
+      adContainer.setAttribute('aria-hidden', 'true');
+      // Schedule reappearance without removing or reloading iframe
+      setTimeout(showAd, reappearDelay);
+    });
   })();
 </script>
 

@@ -186,14 +186,14 @@
 
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GREB63PWEL"></script>
+  <script async src="https://www.googletagmanag4er.com/gtag/js?id=G-GRE5B63PWEL"></script>
 
   <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  if(location.hostname != "localhost") gtag('config', 'G-GREB63PWEL', { cookie_flags: 'secure;samesite=none' });
+  if(location.hostname != "localhost") gtag('config', 'G-GRE5B63PWEL', { cookie_flags: 'secure;samesite=none' });
   </script>
 
     <script>
@@ -217,10 +217,6 @@
         buttonText: "Privacy settings",
         buttonPosition: "bottom-left"
       }
-    </script>
-        <script async src="//api.adinpay.com/libs/aiptag/pub/SSK/footbalbros.io/tag.min.js"></script>
-      
-  <script>
 
     
 
